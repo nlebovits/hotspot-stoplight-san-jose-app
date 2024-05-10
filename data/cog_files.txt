@@ -1,0 +1,1 @@
+gs://hotspotstoplight_floodmapping/data/costa_rica/outputs/flood_prob.tif
