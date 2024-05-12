@@ -15,6 +15,9 @@ key_path = os.getenv("GOOGLE_APPLICATION_CREDENTIALS")
 os.environ["GDAL_DISABLE_READDIR_ON_OPEN"] = "YES"
 os.environ["CPL_VSIL_CURL_ALLOWED_EXTENSIONS"] = "tif"
 
+
+print(key_path)
+
 st.set_page_config(layout="wide")
 
 
@@ -45,24 +48,25 @@ st.markdown(
 
 col1, col2 = st.columns([8, 2])
 
-bucket_name = 'hotspotstoplight-sanjose-ui'
+## connect to GCS
+storage_client = storage.Client()
+bucket = storage_client.bucket("hotspotstoplight-sanjose-ui")
 
-client = storage.Client()
-bucket = client.bucket(bucket_name)
+ee.Authenticate()
+ee.Initialize(project=cloud_project)
 
 bio = geemap.load_GeoTIFF("gs://hotspotstoplight-sanjose-ui/bio_top_cluster_idx_cog.tif")
 clim = geemap.load_GeoTIFF("gs://hotspotstoplight-sanjose-ui/clim_top_cluster_idx_cog.tif")
 urb = geemap.load_GeoTIFF("gs://hotspotstoplight-sanjose-ui/urb_top_cluster_idx_cog.tif")
 urbex = geemap.load_GeoTIFF("gs://hotspotstoplight-sanjose-ui/urbex_top_cluster_idx_cog.tif")
 
-ee.Initialize(project='hotspotstoplight')
 
 Map = geemap.Map()
 
 vizParamsBio = {
     'min': 0,
     'max': 1,
-    'palette': colorcet.rainbow  # bmw # ['white', 'pink']#
+    'palette': colorcet.rainbow #bmw # ['white', 'pink']#
 }
 
 vizParamsClim = {
@@ -71,24 +75,24 @@ vizParamsClim = {
     'palette': colorcet.fire
 }
 
-vizParamsUrb = {
-    'min': 0,
-    'max': 1,
-    'palette': colorcet.bmw
-}
-
-
-vizParamsClim = {
+vizParamsUrb= {
     'min': 0,
     'max': 1,
     'palette': colorcet.bmy
 }
 
+vizParamsUrbex = {
+    'min': 0,
+    'max': 1,
+    'palette': colorcet.bmw
+}
+
 Map.add_basemap('Esri.WorldImagery')
 Map.addLayer(bio, vizParamsBio, "bio")
 Map.addLayer(clim, vizParamsClim, "clim")
-Map.addLayer(urb, vizParamsUrb, "urb")
-Map.addLayer(urbex, vizParamsClim, "urbex")
+Map.addLayer(urb, vizParamsUrb, "urban")
+Map.addLayer(urbex, vizParamsUrbex, "urbex")
+# Map.addLayer(image, vizParamsProbability, "Flood Prob")
 Map.add_basemap('CartoDB.PositronOnlyLabels')
 Map.centerObject(bio, 11)
 
