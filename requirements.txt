@@ -10,7 +10,6 @@ keplergl
 leafmap
 localtileserver
 nbserverproxy
-os
 owslib
 palettable
 plotly
