@@ -12,6 +12,7 @@ nbserverproxy
 owslib
 palettable
 plotly
+python-dotenv
 streamlit
 streamlit-bokeh-events
 streamlit-folium
