@@ -25,7 +25,6 @@ st.set_page_config(layout="wide")
 def ee_authenticate(token_name="EARTHENGINE_TOKEN"):
     geemap.ee_initialize(token_name=token_name)
 
-
 # Customize the sidebar
 markdown = """
 Web App URL: <https://hotspot-stoplight-san-jose.streamlit.app/>
@@ -52,8 +51,8 @@ col1, col2 = st.columns([8, 2])
 storage_client = storage.Client()
 bucket = storage_client.bucket("hotspotstoplight-sanjose-ui")
 
-ee.Authenticate()
-ee.Initialize(project=cloud_project)
+# ee.Authenticate()
+# ee.Initialize(project=cloud_project)
 
 bio = geemap.load_GeoTIFF("gs://hotspotstoplight-sanjose-ui/bio_top_cluster_idx_cog.tif")
 clim = geemap.load_GeoTIFF("gs://hotspotstoplight-sanjose-ui/clim_top_cluster_idx_cog.tif")
