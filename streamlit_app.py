@@ -14,6 +14,15 @@ from utils.geoutils import load_geotiff, process_kmz_to_ee_feature
 
 load_dotenv()
 
+import base64
+
+service_account_info = base64.b64decode(st.secrets["GOOGLE_SERVICE_ACCOUNT_KEY"])
+path_to_service_account_file = "/tmp/service_account.json"  # Temporary file
+with open(path_to_service_account_file, "wb") as file:
+    file.write(service_account_info)
+
+os.environ["GOOGLE_APPLICATION_CREDENTIALS"] = path_to_service_account_file
+
 
 cloud_project = os.getenv("GOOGLE_CLOUD_PROJECT_NAME")
 storage_client = storage.Client()
