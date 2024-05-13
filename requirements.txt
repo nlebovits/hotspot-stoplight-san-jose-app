@@ -2,7 +2,7 @@
 # cartopy
 colorcet
 folium==0.13.0
-geemap[extra]
+geemap
 geopandas
 google-cloud-storage
 jupyter-server-proxy
