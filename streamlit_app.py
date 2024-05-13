@@ -4,30 +4,31 @@ import ee
 import geemap
 import colorcet
 from google.cloud import storage
+from google.oauth2 import service_account
 import tempfile
 import subprocess
 import zipfile
 import glob
 import streamlit as st
-
+import base64
 from utils.geoutils import load_geotiff, process_kmz_to_ee_feature
+import json
 
 load_dotenv()
 
-import base64
+service_account_info = json.loads(base64.b64decode(st.secrets["GOOGLE_SERVICE_ACCOUNT_KEY"]))
 
-service_account_info = base64.b64decode(st.secrets["GOOGLE_SERVICE_ACCOUNT_KEY"])
-path_to_service_account_file = "/tmp/service_account.json"  # Temporary file
-with open(path_to_service_account_file, "wb") as file:
-    file.write(service_account_info)
-
-os.environ["GOOGLE_APPLICATION_CREDENTIALS"] = path_to_service_account_file
-
-
+credentials = service_account.Credentials.from_service_account_info(
+    service_account_info,
+    scopes=["https://www.googleapis.com/auth/cloud-platform"]
+)
 cloud_project = os.getenv("GOOGLE_CLOUD_PROJECT_NAME")
-storage_client = storage.Client()
+
+ee.Initialize(credentials=credentials, project=cloud_project)
+
+storage_client = storage.Client(credentials=credentials)
+
 bucket = storage_client.bucket("hotspotstoplight-sanjose-ui")
-ee.Initialize(project=cloud_project)
 
 
 st.set_page_config(layout="wide")
