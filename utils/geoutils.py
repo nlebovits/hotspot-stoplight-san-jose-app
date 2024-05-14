@@ -8,14 +8,13 @@ import ee
 from google.cloud import storage
 import logging
 import shutil
+import requests
 
 def load_geotiff(layer_name):
     return geemap.load_GeoTIFF(f"gs://hotspotstoplight-sanjose-ui/{layer_name}_top_cluster_idx_cog.tif")
 
 
 def process_kmz_to_ee_feature(bucket_name, blob_name):
-    # Configure logging
-    logging.basicConfig(level=logging.INFO, format='%(asctime)s - %(levelname)s - %(message)s')
 
     # Initialize Google Cloud Storage client
     storage_client = storage.Client()
@@ -23,9 +22,12 @@ def process_kmz_to_ee_feature(bucket_name, blob_name):
     # Get the bucket
     bucket = storage_client.get_bucket(bucket_name)
 
-    # Determine the shapefile directory name on GCS and locally
-    shapefile_dir_name = blob_name.replace('.kmz', '')
-    local_shapefile_dir = os.path.join('data', shapefile_dir_name)
+    # Extract the base name for the KMZ file
+    base_name = blob_name.replace('.kmz', '')
+
+    # Determine the local and GCS directory paths
+    local_shapefile_dir = os.path.join('data', base_name)
+    shapefile_dir_name = base_name  # Assuming directory name on GCS follows the same pattern
 
     # Ensure local data directory exists
     if not os.path.exists('data'):
@@ -79,14 +81,25 @@ def process_kmz_to_ee_feature(bucket_name, blob_name):
                 os.makedirs(local_shapefile_dir)
             copy_shapefile_folder(shp_path, local_shapefile_dir)
 
-    # Upload to GCS if not already present
-    if not shapefile_exists_on_gcs:
-        logging.info("Shapefile not found on GCS, uploading.")
-        upload_shapefile_folder(bucket, shapefile_dir_name, os.path.join('data', shapefile_dir_name))
+    if not local_files_exist and not shapefile_exists_on_gcs:
+        # Form the GitHub URL based on a predictable pattern
+        # Modify this line according to the naming convention of your shapefiles
+        shapefile_name = f"{base_name}.shp"  # Modify this to match your actual shapefile naming pattern
+        github_url = f"https://github.com/nlebovits/hotspot-stoplight-san-jose-app/raw/master/data/{shapefile_dir_name}/{shapefile_name}"
+
+        try:
+            response = requests.get(github_url)
+            response.raise_for_status()
+            with open(os.path.join(local_shapefile_dir, shapefile_name), 'wb') as f:
+                f.write(response.content)
+            logging.info("Shapefile downloaded from GitHub successfully.")
+        except requests.exceptions.RequestException as e:
+            logging.error(f"Failed to download shapefile from GitHub: {e}")
+            return None
 
     # Assuming shapefile directory is now present locally, load into Earth Engine
     try:
-        ee_object = geemap.shp_to_ee(f"gs://{bucket_name}/{shapefile_dir_name}")
+        ee_object = geemap.shp_to_ee(os.path.join(local_shapefile_dir, shapefile_dir_name + '.shp'))
         logging.info("Shapefile loaded into Earth Engine successfully.")
         return ee_object
     except Exception as e:
