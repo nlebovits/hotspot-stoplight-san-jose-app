@@ -82,6 +82,15 @@ site_urls = [
     'https://github.com/HotspotStoplight/HotspotStoplight/raw/main/WebMap/geojson/Priority_Expansion_SiteVisit.geojson'
 ]
 
+polygon_colors = {
+    'Priority_Bio_SiteVisit': 'E60000',
+    'Priority_Clim_SiteVisit': 'A900E6',
+    'Priority_Urb_SiteVisit': '4CE600',
+    'Priority_UrbEx_SiteVisit': 'E6E600',
+    'Priority_Expansion_SiteVisit': '0070FF'
+}
+
+
 Map = geemap.Map()
 Map.add_basemap('Esri.WorldImagery')
 
@@ -94,7 +103,8 @@ for url in site_urls:
     name = url.split('/')[-1].split('.')[0]
     data = read_data(url)
     ee_layer = geemap.geopandas_to_ee(data)
-    Map.addLayer(ee_layer, {'color': '000000', 'fillOpacity': 0.5}, name)
+    color = polygon_colors.get(name, '000000')
+    Map.addLayer(ee_layer, {'color': color, 'fillColor': '00000000', 'fillOpacity': 0.0}, name)
 
 Map.add_basemap('CartoDB.PositronOnlyLabels')
 Map.centerObject(layers['bio'], 11)
