@@ -1,10 +1,12 @@
 --find-links=https://girder.github.io/large_image_wheels GDAL
+black
 # cartopy
 colorcet
 folium==0.13.0
 geemap
 geopandas
 google-cloud-storage
+isort
 jupyter-server-proxy
 keplergl
 leafmap
