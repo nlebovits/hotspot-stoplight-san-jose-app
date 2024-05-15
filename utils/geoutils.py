@@ -1,11 +1,12 @@
-import tempfile
-import subprocess
-import zipfile
 import glob
-import geemap
-import ee
-from google.cloud import storage
 import os
+import subprocess
+import tempfile
+import zipfile
+
+import ee
+import geemap
+from google.cloud import storage
 
 
 def load_geotiff(layer_name):
