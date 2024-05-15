@@ -38,8 +38,8 @@ st.sidebar.title("About")
 logo = "https://github.com/nlebovits/hotspot-stoplight-san-jose-app/raw/master/assets/logo.png"
 st.sidebar.image(logo)
 markdown = """
-Web App URL: <https://hotspot-stoplight-san-jose.streamlit.app/>
-GitHub Repository: <https://github.com/nlebovits/hotspot-stoplight-san-jose-app>
+[Web App URL](https://hotspot-stoplight-san-jose.streamlit.app/) |
+[GitHub Repository](https://github.com/nlebovits/hotspot-stoplight-san-jose-app)
 """
 st.sidebar.info(markdown)
 st.title("Hotspot Stoplight Geospatial Data Viz")
