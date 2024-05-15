@@ -8,7 +8,7 @@ from google.cloud import storage
 import os
 
 def load_geotiff(layer_name):
-    return geemap.load_GeoTIFF(f"gs://hotspotstoplight-sanjose-ui/{layer_name}_top_cluster_idx_cog.tif")
+    return geemap.load_GeoTIFF(f"gs://hotspotstoplight-sanjose-ui/{layer_name}_cog.tif")
 
 def process_kmz_to_ee_feature(bucket, blob_name):
     blob = bucket.blob(blob_name)

@@ -63,10 +63,10 @@ vizParams = {
 }
 
 layers = {
-    "bio": load_geotiff("bio"),
-    "clim": load_geotiff("clim"),
-    "urb": load_geotiff("urb"),
-    "urbex": load_geotiff("urbex")# ,
+    "bio": load_geotiff("bio_top_cluster_idx"),
+    "clim": load_geotiff("clim_top_cluster_idx"),
+    "urb": load_geotiff("urb_top_cluster_idx"),
+    "urbex": load_geotiff("urbex_top_cluster_idx")# ,
     # "expansion": load_geotiff("expansion")
 }
 
