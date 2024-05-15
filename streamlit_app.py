@@ -85,16 +85,16 @@ site_urls = [
 Map = geemap.Map()
 Map.add_basemap('Esri.WorldImagery')
 
+# Add GeoTIFF layers
+for name, layer in layers.items():
+    Map.addLayer(layer, vizParams[name], name)
+
 # Add GeoJSON layers
 for url in site_urls:
     name = url.split('/')[-1].split('.')[0]
     data = read_data(url)
     ee_layer = geemap.geopandas_to_ee(data)
-    Map.addLayer(ee_layer, {'color': '000000', 'fillColorOpacity': 0}, name)
-
-# Add GeoTIFF layers
-for name, layer in layers.items():
-    Map.addLayer(layer, vizParams[name], name)
+    Map.addLayer(ee_layer, {'color': '000000', 'fillOpacity': 0.5}, name)
 
 Map.add_basemap('CartoDB.PositronOnlyLabels')
 Map.centerObject(layers['bio'], 11)
