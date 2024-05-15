@@ -1,14 +1,7 @@
 repos:
   - repo: https://github.com/psf/black
-    rev: stable
+    rev: 23.3.0  # Use a specific version of Black
     hooks:
       - id: black
         language_version: python3
 
-  - repo: https://github.com/pycqa/isort
-    rev: 5.8.0  # Use the latest version or another version that suits your needs
-    hooks:
-      - id: isort
-        name: isort (Python import sort)
-        language: python
-        types: [python]  # This ensures isort runs only on Python files
