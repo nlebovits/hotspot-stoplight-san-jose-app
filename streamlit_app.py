@@ -1,6 +1,11 @@
 import streamlit as st
 
-from utils.auth import get_credentials, get_storage_client, initialize_ee
+from utils.auth import (
+    get_bucket_name,
+    get_credentials,
+    get_storage_client,
+    initialize_ee,
+)
 from utils.config import (
     LAYERS_CLUSTERING,
     POLYGON_COLORS,
@@ -16,7 +21,8 @@ from utils.geoutils import create_map, load_geotiff
 credentials = get_credentials()
 initialize_ee(credentials)
 storage_client = get_storage_client(credentials)
-bucket = storage_client.bucket("hotspotstoplight-sanjose-ui")
+bucket_name = get_bucket_name()
+bucket = storage_client.bucket(bucket_name)
 
 # Streamlit Configuration
 set_page_config()

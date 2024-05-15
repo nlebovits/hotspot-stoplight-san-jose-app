@@ -27,3 +27,7 @@ def initialize_ee(credentials):
 
 def get_storage_client(credentials):
     return storage.Client(credentials=credentials)
+
+
+def get_bucket_name():
+    return os.getenv("GOOGLE_CLOUD_STORAGE_BUCKET")
