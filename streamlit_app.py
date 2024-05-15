@@ -35,7 +35,7 @@ bucket = storage_client.bucket("hotspotstoplight-sanjose-ui")
 
 st.set_page_config(layout="wide")
 st.sidebar.title("About")
-logo = "https://i.imgur.com/UbOXYAU.png"
+logo = "assets/logo.png"
 st.sidebar.image(logo)
 markdown = """
 Web App URL: <https://hotspot-stoplight-san-jose.streamlit.app/>
