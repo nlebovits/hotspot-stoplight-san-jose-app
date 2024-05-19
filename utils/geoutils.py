@@ -43,3 +43,28 @@ def create_map(layers, vizParams, site_urls, polygon_colors):
     Map.add_basemap("CartoDB.PositronOnlyLabels")
     Map.centerObject(layers["bio"], 11)
     return Map
+
+
+def display_site_visit_data(site_table_urls):
+    st.write("## Site Visit Data")
+    st.write(
+        "The following table contains information about site visits to priority sites."
+    )
+
+    for url in site_table_urls:
+        # Extract the table name from the URL
+        table_name = url.split("/")[-1].split(".")[0]
+
+        st.write(f"### {table_name}")
+        st.write("")
+
+        # Load the GeoJSON
+        with st.spinner(f"Loading {url}..."):
+            df = read_data(url)
+            df = df.drop(
+                columns=["geometry", "Shape_Area", "Shape_Length", "Label", "OBJECTID"]
+            )
+
+        # Display the table
+        st.write(df)
+        st.write("")

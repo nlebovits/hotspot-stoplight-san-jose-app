@@ -94,3 +94,11 @@ LAYERS_CONTRIBUTING = {
     "pop": "population",
     "urban": "urban_probability",
 }
+
+SITE_TABLE_URLS = [
+    "https://github.com/HotspotStoplight/HotspotStoplight/raw/main/WebMap/geojson/geojsons_extracted_distributions/Priority_Bio_SiteVisit.geojson",
+    "https://github.com/HotspotStoplight/HotspotStoplight/raw/main/WebMap/geojson/geojsons_extracted_distributions/Priority_Clim_SiteVisit.geojson",
+    "https://github.com/HotspotStoplight/HotspotStoplight/raw/main/WebMap/geojson/geojsons_extracted_distributions/Priority_Expansion_SiteVisit.geojson",
+    "https://github.com/HotspotStoplight/HotspotStoplight/raw/main/WebMap/geojson/geojsons_extracted_distributions/Priority_UrbEx_SiteVisit.geojson",
+    "https://github.com/HotspotStoplight/HotspotStoplight/raw/main/WebMap/geojson/geojsons_extracted_distributions/Priority_Urb_SiteVisit.geojson",
+]

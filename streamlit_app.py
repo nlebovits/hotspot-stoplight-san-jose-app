@@ -9,13 +9,14 @@ from utils.auth import (
 from utils.config import (
     LAYERS_CLUSTERING,
     POLYGON_COLORS,
+    SITE_TABLE_URLS,
     SITE_URLS,
     VIZ_PARAMS_CLUSTERING,
     set_page_config,
     set_title,
     sidebar_setup,
 )
-from utils.geoutils import create_map, load_geotiff
+from utils.geoutils import create_map, display_site_visit_data, load_geotiff, read_data
 
 # Authentication and Initialization
 credentials = get_credentials()
@@ -35,3 +36,6 @@ layers = {name: load_geotiff(layer) for name, layer in LAYERS_CLUSTERING.items()
 # Create and display the map
 Map = create_map(layers, VIZ_PARAMS_CLUSTERING, SITE_URLS, POLYGON_COLORS)
 Map.to_streamlit(height=1000)
+
+# Display site visit data
+display_site_visit_data(SITE_TABLE_URLS)
