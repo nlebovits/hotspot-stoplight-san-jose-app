@@ -6,7 +6,7 @@ def set_page_config():
 
 
 def sidebar_setup():
-    st.sidebar.title("About")
+    # st.sidebar.markdown("<h1 style='text-align: center;'>Hotspot Stoplight Web App</h1>", unsafe_allow_html=True)
     logo = "https://github.com/nlebovits/hotspot-stoplight-san-jose-app/raw/master/assets/logo.png"
     st.sidebar.image(logo)
 
