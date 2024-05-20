@@ -13,6 +13,18 @@ from utils.config import (
 )
 
 from utils.geoutils import create_map, display_site_visit_data, load_geotiff
+from utils.auth import (
+    get_credentials,
+    initialize_ee,
+    get_storage_client,
+    get_bucket_name,
+)
+
+# Initialize credentials and services
+credentials = get_credentials()
+initialize_ee(credentials)
+storage_client = get_storage_client(credentials)
+bucket_name = get_bucket_name()
 
 set_page_config()
 

@@ -3,16 +3,14 @@ import json
 import os
 
 import ee
-from dotenv import load_dotenv
 from google.cloud import storage
 from google.oauth2 import service_account
-
-load_dotenv()
+import streamlit as st
 
 
 def get_credentials():
     service_account_info = json.loads(
-        base64.b64decode(os.getenv("GOOGLE_SERVICE_ACCOUNT_KEY"))
+        base64.b64decode(st.secrets["GOOGLE_SERVICE_ACCOUNT_KEY"])
     )
     credentials = service_account.Credentials.from_service_account_info(
         service_account_info, scopes=["https://www.googleapis.com/auth/cloud-platform"]
@@ -21,7 +19,7 @@ def get_credentials():
 
 
 def initialize_ee(credentials):
-    cloud_project = os.getenv("GOOGLE_CLOUD_PROJECT_NAME")
+    cloud_project = st.secrets["GOOGLE_CLOUD_PROJECT_NAME"]
     ee.Initialize(credentials=credentials, project=cloud_project)
 
 
@@ -30,4 +28,4 @@ def get_storage_client(credentials):
 
 
 def get_bucket_name():
-    return os.getenv("GOOGLE_CLOUD_STORAGE_BUCKET")
+    return st.secrets["GOOGLE_CLOUD_BUCKET_NAME"]

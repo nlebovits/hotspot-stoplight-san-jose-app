@@ -12,13 +12,26 @@ from google.cloud import storage
 import janitor as jn
 import pandas as pd
 
+from utils.auth import (
+    get_credentials,
+    initialize_ee,
+    get_storage_client,
+    get_bucket_name,
+)
+
+# Initialize credentials and services
+credentials = get_credentials()
+initialize_ee(credentials)
+storage_client = get_storage_client(credentials)
+bucket_name = get_bucket_name()
+
 
 def load_geotiff(layer_key, layers_dict):
     try:
         # Construct the filename based on the key and the provided dictionary
         layer_name = layers_dict[layer_key]
-        file_path = f"gs://hotspotstoplight-sanjose-ui/{layer_name}_cog.tif"
-        st.write(f"Loading GeoTIFF: {file_path}")  # Debugging statement
+        file_path = f"gs://{bucket_name}/{layer_name}_cog.tif"
+        # st.write(f"Loading GeoTIFF: {file_path}")  # Debugging statement
         return geemap.load_GeoTIFF(file_path)
     except Exception as e:
         st.error(f"Error loading GeoTIFF: {file_path}. Exception: {str(e)}")
@@ -58,8 +71,6 @@ def create_map(layers, vizParams, site_table_urls, polygon_colors):
 
 
 def display_site_visit_data(site_table_urls):
-    st.write("## Site Visit Data")
-
     combined_df = pd.DataFrame()
 
     for url in site_table_urls:
@@ -74,7 +85,7 @@ def display_site_visit_data(site_table_urls):
         {
             "^B": "Bio ",
             "^C": "Climate ",
-            "^X": "UrbEx ",
+            "^X": "UrbEx",
             "^E": "Expansion ",
             "^U": "Urban ",
         },
