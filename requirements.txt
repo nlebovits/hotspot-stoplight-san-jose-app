@@ -15,6 +15,7 @@ nbserverproxy
 owslib
 palettable
 plotly
+pyjanitor
 python-dotenv
 requests
 streamlit
