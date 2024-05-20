@@ -14,9 +14,15 @@ import pandas as pd
 
 
 def load_geotiff(layer_key, layers_dict):
-    # Construct the filename based on the key and the provided dictionary
-    layer_name = layers_dict[layer_key]
-    return geemap.load_GeoTIFF(f"gs://hotspotstoplight-sanjose-ui/{layer_name}_cog.tif")
+    try:
+        # Construct the filename based on the key and the provided dictionary
+        layer_name = layers_dict[layer_key]
+        file_path = f"gs://hotspotstoplight-sanjose-ui/{layer_name}_cog.tif"
+        st.write(f"Loading GeoTIFF: {file_path}")  # Debugging statement
+        return geemap.load_GeoTIFF(file_path)
+    except Exception as e:
+        st.error(f"Error loading GeoTIFF: {file_path}. Exception: {str(e)}")
+        raise
 
 
 @st.cache_data
@@ -53,9 +59,6 @@ def create_map(layers, vizParams, site_table_urls, polygon_colors):
 
 def display_site_visit_data(site_table_urls):
     st.write("## Site Visit Data")
-    st.write(
-        "The following table contains information about site visits to priority sites."
-    )
 
     combined_df = pd.DataFrame()
 
