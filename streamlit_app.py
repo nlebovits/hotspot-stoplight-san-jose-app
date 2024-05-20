@@ -16,7 +16,7 @@ from utils.config import (
     set_title,
     sidebar_setup,
 )
-from utils.geoutils import create_map, display_site_visit_data, load_geotiff, read_data
+from utils.geoutils import create_map, display_site_visit_data, load_geotiff
 
 # Authentication and Initialization
 credentials = get_credentials()
