@@ -10,6 +10,7 @@ import geopandas as gpd
 import streamlit as st
 from google.cloud import storage
 import janitor as jn
+import pandas as pd
 
 
 def load_geotiff(layer_key, layers_dict):
@@ -56,18 +57,27 @@ def display_site_visit_data(site_table_urls):
         "The following table contains information about site visits to priority sites."
     )
 
+    combined_df = pd.DataFrame()
+
     for url in site_table_urls:
-        # Extract the table name from the URL
-        table_name = url.split("/")[-1].split(".")[0]
-
-        st.write(f"### {table_name}")
-        st.write("")
-
         # Load the GeoJSON
         with st.spinner(f"Loading {url}..."):
             df = read_data(url)
             df = df.drop(columns=["geometry", "shape_area", "shape_length", "objectid"])
+            combined_df = pd.concat([combined_df, df], ignore_index=True)
 
-        # Display the table
-        st.write(df)
-        st.write("")
+    # Replace values in the 'label' column
+    combined_df["label"] = combined_df["label"].replace(
+        {
+            "^B": "Bio ",
+            "^C": "Climate ",
+            "^X": "UrbEx ",
+            "^E": "Expansion ",
+            "^U": "Urban ",
+        },
+        regex=True,
+    )
+
+    # Display the combined table
+    st.write(combined_df)
+    st.write("")
