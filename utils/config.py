@@ -9,11 +9,15 @@ def sidebar_setup():
     st.sidebar.title("About")
     logo = "https://github.com/nlebovits/hotspot-stoplight-san-jose-app/raw/master/assets/logo.png"
     st.sidebar.image(logo)
-    markdown = """
-    [Web App URL](https://hotspot-stoplight-san-jose.streamlit.app/) |
-    [GitHub Repository](https://github.com/nlebovits/hotspot-stoplight-san-jose-app)
+
+    # Centered content using HTML
+    html_content = """
+    <div style="text-align: center;">
+        <p><a href="https://hotspot-stoplight-san-jose.streamlit.app/">Web App URL</a></p>
+        <p><a href="https://github.com/nlebovits/hotspot-stoplight-san-jose-app">GitHub Repository</a></p>
+    </div>
     """
-    st.sidebar.info(markdown)
+    st.sidebar.markdown(html_content, unsafe_allow_html=True)
 
 
 def set_title():
